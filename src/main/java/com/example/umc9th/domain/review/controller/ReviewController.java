@@ -20,8 +20,8 @@ class ReviewController {
     @GetMapping("/my")
     public List<Review> getMyReviews(
             @RequestParam Long userId,
-            @RequestParam String storeName,
-            @RequestParam Integer rate
+            @RequestParam(required = false) String storeName,
+            @RequestParam(required = false) Integer rate
     ){
         return reviewService.findMyReviews(userId, storeName, rate);
     }
