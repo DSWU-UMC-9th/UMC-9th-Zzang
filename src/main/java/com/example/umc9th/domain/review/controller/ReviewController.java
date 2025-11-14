@@ -1,14 +1,15 @@
 package com.example.umc9th.domain.review.controller;
 
-import com.example.umc9th.domain.review.entity.Review;
+import com.example.umc9th.domain.review.dto.ReviewResDTO;
 import com.example.umc9th.domain.review.service.ReviewService;
+import com.example.umc9th.global.apiPayload.ApiResponse;
+import com.example.umc9th.global.apiPayload.code.GeneralSuccessCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,11 +19,12 @@ class ReviewController {
     private final ReviewService reviewService;
 
     @GetMapping("/my")
-    public List<Review> getMyReviews(
+    public ApiResponse<ReviewResDTO.ReviewList> getMyReviews(
             @RequestParam Long userId,
             @RequestParam(required = false) String storeName,
             @RequestParam(required = false) Integer rate
-    ){
-        return reviewService.findMyReviews(userId, storeName, rate);
+    ) {
+        ReviewResDTO.ReviewList response = reviewService.findMyReviews(userId, storeName, rate);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, response);
     }
 }
