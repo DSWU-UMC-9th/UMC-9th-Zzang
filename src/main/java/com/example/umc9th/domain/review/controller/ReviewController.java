@@ -24,7 +24,6 @@ class ReviewController {
             @RequestParam(required = false) String storeName,
             @RequestParam(required = false) Integer rate
     ) {
-        ReviewResDTO.ReviewList response = reviewService.findMyReviews(userId, storeName, rate);
-        return ApiResponse.onSuccess(GeneralSuccessCode.OK, response);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, reviewService.findMyReviews(userId, storeName, rate));
     }
 }
