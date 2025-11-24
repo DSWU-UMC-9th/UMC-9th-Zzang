@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 public interface UserMissionRepository extends JpaRepository<UserMission, Long> {
 
     // 사용자 진행중/진행완료 미션 조회
@@ -24,4 +26,6 @@ public interface UserMissionRepository extends JpaRepository<UserMission, Long> 
             @Param("userId") Long userId,
             @Param("status") MissionStatus status,
             Pageable pageable);
+
+    Optional<UserMission> findByUserIdAndMissionId(Long userId, Long missionId);
 }

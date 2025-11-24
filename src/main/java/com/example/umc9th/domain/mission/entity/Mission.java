@@ -16,13 +16,13 @@ public class Mission extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "content", length = 60, nullable = false)
     private String content;
 
     @Column(name = "point", nullable = false)
-    private int point;
+    private Integer point;
 
     @Column(name = "deadline", nullable = false)
     private LocalDate deadline;
