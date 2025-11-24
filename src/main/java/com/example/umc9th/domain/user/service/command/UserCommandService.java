@@ -10,13 +10,11 @@ import com.example.umc9th.domain.user.exception.code.FoodErrorCode;
 import com.example.umc9th.domain.user.repository.FoodRepository;
 import com.example.umc9th.domain.user.repository.PreferFoodRepository;
 import com.example.umc9th.domain.user.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

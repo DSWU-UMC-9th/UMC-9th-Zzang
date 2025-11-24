@@ -13,9 +13,9 @@ import com.example.umc9th.domain.user.entity.User;
 import com.example.umc9th.domain.user.exception.UserException;
 import com.example.umc9th.domain.user.exception.code.UserErrorCode;
 import com.example.umc9th.domain.user.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
