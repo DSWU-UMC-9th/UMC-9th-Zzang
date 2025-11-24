@@ -5,6 +5,7 @@ import com.example.umc9th.domain.mission.service.MissionService;
 import com.example.umc9th.global.apiPayload.ApiResponse;
 import com.example.umc9th.global.apiPayload.code.GeneralSuccessCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,12 +17,12 @@ public class MissionController {
 
     // 가게 미션 -> 사용자 도전 미션 등록
     @PostMapping("/{missionId}/challenge")
-    public ApiResponse<UserMissionResDTO.UserMission> challengeMission(
+    public ResponseEntity<ApiResponse<UserMissionResDTO.UserMission>> challengeMission(
             @PathVariable Long missionId,
             @RequestParam Long userId
     ) {
-        return ApiResponse.onSuccess(
+        return ResponseEntity.ok(ApiResponse.onSuccess(
                 GeneralSuccessCode.CREATED,
-                missionService.challengeMission(userId, missionId));
+                missionService.challengeMission(userId, missionId)));
     }
 }

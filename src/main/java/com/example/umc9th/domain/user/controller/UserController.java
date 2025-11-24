@@ -7,6 +7,7 @@ import com.example.umc9th.domain.user.service.command.UserCommandService;
 import com.example.umc9th.global.apiPayload.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,9 +20,10 @@ public class UserController {
 
     // 회원 가입
     @PostMapping("/api/auth/signup")
-    public ApiResponse<UserResDTO.UserJoin> signup(
+    public ResponseEntity<ApiResponse<UserResDTO.UserJoin>> signup(
             @RequestBody @Valid UserReqDTO.UserJoin dto
     ) {
-        return ApiResponse.onSuccess(UserSuccessCode.FOUND, userCommandService.signup(dto));
+        return ResponseEntity.ok(ApiResponse.onSuccess(
+                UserSuccessCode.FOUND, userCommandService.signup(dto)));
     }
 }

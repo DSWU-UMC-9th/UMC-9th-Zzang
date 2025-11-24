@@ -6,6 +6,7 @@ import com.example.umc9th.domain.review.service.ReviewService;
 import com.example.umc9th.global.apiPayload.ApiResponse;
 import com.example.umc9th.global.apiPayload.code.GeneralSuccessCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -18,25 +19,25 @@ class ReviewController {
 
     // 내가 작성한 리뷰 조회 (+필터링)
     @GetMapping("/my")
-    public ApiResponse<ReviewResDTO.ReviewList> getMyReviews(
+    public ResponseEntity<ApiResponse<ReviewResDTO.ReviewList>> getMyReviews(
             @RequestParam Long userId,
             @RequestParam(required = false) String storeName,
             @RequestParam(required = false) Integer rate
     ) {
-        return ApiResponse.onSuccess(
+        return ResponseEntity.ok(ApiResponse.onSuccess(
                 GeneralSuccessCode.OK,
-                reviewService.findMyReviews(userId, storeName, rate));
+                reviewService.findMyReviews(userId, storeName, rate)));
     }
 
     // 가게 리뷰 작성
     @PostMapping("/{storeId}")
-    public ApiResponse<ReviewResDTO.ReviewDetail> createReview(
+    public ResponseEntity<ApiResponse<ReviewResDTO.ReviewDetail>> createReview(
             @PathVariable Long storeId,
             @RequestParam Long userId,
             @RequestBody ReviewReqDTO.CreateReview request
             ) {
-        return ApiResponse.onSuccess(
+        return ResponseEntity.ok(ApiResponse.onSuccess(
                 GeneralSuccessCode.CREATED,
-                reviewService.createReview(userId, storeId, request));
+                reviewService.createReview(userId, storeId, request)));
     }
 }
