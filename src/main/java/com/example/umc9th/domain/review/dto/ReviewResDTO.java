@@ -1,28 +1,31 @@
 package com.example.umc9th.domain.review.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class ReviewResDTO {
 
     @Builder
-    @Getter
-    public static class ReviewDetail {
-        private Long reviewId;
-        private String userName;
-        private String storeName;
-        private String content;
-        private Integer rate;
-        private LocalDateTime createdAt;
-        private List<String> images;
-    }
+    public record ReviewPreview (
+            String userName,
+            Integer rate,
+            String content,
+            LocalDate createdAt
+    ) {}
 
     @Builder
-    @Getter
-    public static class ReviewList {
-        private List<ReviewDetail> reviews;
-    }
+    public record ReviewPreviewList (
+        List<ReviewPreview> reviews,
+        Integer listSize,
+        Integer totalPage,
+        Long totalElements,
+        Boolean isFirst,
+        Boolean isLast
+    ) {}
 }

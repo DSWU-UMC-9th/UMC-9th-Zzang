@@ -1,10 +1,9 @@
 package com.example.umc9th.domain.review.repository;
 
 import com.example.umc9th.domain.review.entity.Review;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface ReviewQueryDsl {
-
-    List<Review> filterMyReviews(Long userId, String storeName, Integer rate);
+    Page<Review> filterMyReviews(Long userId, String storeName, Integer rate, Pageable pageable);
 }

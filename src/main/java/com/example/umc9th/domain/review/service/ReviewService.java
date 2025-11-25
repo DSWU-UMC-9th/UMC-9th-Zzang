@@ -14,6 +14,8 @@ import com.example.umc9th.domain.user.exception.UserException;
 import com.example.umc9th.domain.user.exception.code.UserErrorCode;
 import com.example.umc9th.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,12 +27,37 @@ public class ReviewService {
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
 
-    public ReviewResDTO.ReviewList findMyReviews(Long userId, String storeName, Integer rate) {
-        return ReviewConverter.toReviewListDto(reviewRepository.filterMyReviews(userId, storeName, rate));
+    public ReviewResDTO.ReviewPreviewList findReviewsByStore(String storeName, Integer page) {
+
+        Store store = storeRepository.findByName(storeName)
+                .orElseThrow(() -> new StoreException(StoreErrorCode.NOT_FOUND));
+
+        PageRequest pageRequest = PageRequest.of(page-1, 10);
+        Page<Review> result = reviewRepository.findAllByStore(store, pageRequest);
+
+        return ReviewConverter.toReviewPreviewListDto(result);
+    }
+
+    public ReviewResDTO.ReviewPreviewList findMyReviews(Long userId, String storeName, Integer rate, Integer page) {
+
+        if (userId != null) {
+            userRepository.findById(userId)
+                    .orElseThrow(() -> new UserException(UserErrorCode.NOT_FOUND));
+        }
+
+        if (storeName != null) {
+            storeRepository.findByName(storeName)
+                    .orElseThrow(() -> new StoreException(StoreErrorCode.NOT_FOUND));
+        }
+
+        PageRequest pageRequest = PageRequest.of(page-1, 10);
+        Page<Review> result = reviewRepository.filterMyReviews(userId, storeName, rate, pageRequest);
+
+        return ReviewConverter.toReviewPreviewListDto(result);
     }
 
     @Transactional
-    public ReviewResDTO.ReviewDetail createReview(Long userId, Long storeId, ReviewReqDTO.CreateReview request) {
+    public ReviewResDTO.ReviewPreview createReview(Long userId, Long storeId, ReviewReqDTO.CreateReview request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserException(UserErrorCode.NOT_FOUND));
 
@@ -40,6 +67,6 @@ public class ReviewService {
         Review review = ReviewConverter.toReview(user, store, request);
         reviewRepository.save(review);
 
-        return ReviewConverter.toReviewDto(review);
+        return ReviewConverter.toReviewPreviewDto(review);
     }
 }
