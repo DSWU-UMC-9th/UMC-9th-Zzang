@@ -6,12 +6,11 @@ import lombok.Getter;
 public class StoreResDTO {
 
     @Builder
-    @Getter
-    public static class Store {
-        private Long storeId;
-        private String storeName;
-        private String location;
-        private String region;
-        private String foodType;
-    }
+    public record Store (
+        Long storeId,
+        String storeName,
+        String location,
+        String region,
+        String foodType
+    ) {}
 }
