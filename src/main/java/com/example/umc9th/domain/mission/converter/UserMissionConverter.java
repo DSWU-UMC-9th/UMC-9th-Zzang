@@ -5,7 +5,8 @@ import com.example.umc9th.domain.mission.entity.UserMission;
 import org.springframework.data.domain.Page;
 
 public class UserMissionConverter {
-    private static UserMissionResDTO.UserMission toUserMissionDto(UserMission userMission) {
+
+    public static UserMissionResDTO.UserMission toUserMissionDto(UserMission userMission) {
         return UserMissionResDTO.UserMission.builder()
                 .userMissionId(userMission.getId())
                 .missionId(userMission.getMission().getId())

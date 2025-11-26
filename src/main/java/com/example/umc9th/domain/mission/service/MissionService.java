@@ -52,6 +52,7 @@ public class MissionService {
         return MissionConverter.toUserMissionDto(userMission);
     }
 
+    @Transactional
     public MissionResDTO.Mission createMission(Long storeId, MissionReqDTO.CreateMission request) {
 
         Store store = storeRepository.findById(storeId)

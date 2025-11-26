@@ -20,6 +20,7 @@ public class MissionConverter {
 
     public static UserMissionResDTO.UserMission toUserMissionDto(UserMission userMission) {
         return UserMissionResDTO.UserMission.builder()
+                .userMissionId(userMission.getId())
                 .missionId(userMission.getMission().getId())
                 .storeName(userMission.getMission().getStore().getName())
                 .status(userMission.getStatus())

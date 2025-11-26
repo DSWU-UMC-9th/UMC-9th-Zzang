@@ -7,6 +7,7 @@ import com.example.umc9th.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +18,9 @@ public class MissionController {
 
     private final MissionService missionService;
 
-    // 가게 미션 -> 사용자 도전 미션 등록
     @Operation(
-            summary = "가게 미션 -> 사용자 도전 미션 등록",
-            description = "가게 미션을 내가 도전 중인 미션에 추가 등록"
+            summary = "사용자 도전 미션 추가",
+            description = "기존 가게 미션을 내가 도전 중인 미션에 추가하여 새로운 UserMission 생성"
     )
     @ApiResponses({
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
@@ -31,8 +31,10 @@ public class MissionController {
             @PathVariable Long missionId,
             @RequestParam Long userId
     ) {
-        return ResponseEntity.ok(ApiResponse.onSuccess(
-                MissionSuccessCode.CREATED,
-                missionService.challengeMission(userId, missionId)));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponse.onSuccess(
+                        MissionSuccessCode.CREATED,
+                        missionService.challengeMission(userId, missionId))
+                );
     }
 }
