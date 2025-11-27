@@ -4,15 +4,18 @@ import com.example.umc9th.domain.mission.dto.UserMissionResDTO;
 import com.example.umc9th.domain.mission.enums.MissionStatus;
 import com.example.umc9th.domain.mission.exception.code.MissionSuccessCode;
 import com.example.umc9th.domain.mission.service.UserMissionService;
+import com.example.umc9th.global.annotation.ValidPage;
 import com.example.umc9th.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@Validated
 @RequestMapping("/api/my-missions")
 public class UserMissionController {
 
@@ -30,7 +33,7 @@ public class UserMissionController {
     public ResponseEntity<ApiResponse<UserMissionResDTO.UserMissionList>> getMyMissions(
             @RequestParam Long userId,
             @RequestParam(defaultValue = "IN_PROGRESS") MissionStatus status,
-            @RequestParam(defaultValue = "1") Integer page
+            @RequestParam(defaultValue = "1") @ValidPage Integer page
     ) {
         return ResponseEntity.ok(ApiResponse.onSuccess(
                 MissionSuccessCode.FOUND,
