@@ -79,7 +79,7 @@ class ReviewController {
             ) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.onSuccess(
-                        GeneralSuccessCode.CREATED,
+                        ReviewSuccessCode.CREATED,
                         reviewService.createReview(userId, storeId, request))
                 );
     }

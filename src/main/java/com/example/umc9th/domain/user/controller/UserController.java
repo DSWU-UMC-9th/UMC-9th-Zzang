@@ -35,7 +35,8 @@ public class UserController {
     ) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.onSuccess(
-                        UserSuccessCode.FOUND, userCommandService.signup(dto))
+                        UserSuccessCode.CREATED, userCommandService.signup(dto))
                 );
     }
 }
+
