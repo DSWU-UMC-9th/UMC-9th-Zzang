@@ -1,6 +1,7 @@
 package com.example.umc9th.domain.mission.repository;
 
 import com.example.umc9th.domain.mission.entity.Mission;
+import com.example.umc9th.domain.store.entity.Store;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,7 +10,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface MissionRepository extends JpaRepository<Mission, Long> {
 
-    // 홈 화면 (도전 가능한 미션 조회)
     @Query("""
             SELECT m
             FROM Mission m
@@ -24,8 +24,16 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
                     AND um.user.id = :userId)
             ORDER BY m.deadline
     """)
-    Page<Mission> findMissionsByRegion(
+    Page<Mission> findByRegion(
             @Param("region") String region,
             @Param("userId") Long userId,
             Pageable pageable);
+
+    @Query("""
+           SELECT m
+           FROM Mission m
+           WHERE m.store = :store
+             AND m.deadline >= CURRENT_DATE
+    """)
+    Page<Mission> findByStore(Store store, Pageable pageable);
 }

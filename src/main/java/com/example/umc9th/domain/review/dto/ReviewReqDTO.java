@@ -1,17 +1,14 @@
 package com.example.umc9th.domain.review.dto;
 
-import lombok.Builder;
 import lombok.Getter;
-
-import java.util.List;
+import lombok.NoArgsConstructor;
 
 public class ReviewReqDTO {
 
-    @Builder
     @Getter
+    @NoArgsConstructor
     public static class CreateReview {
         private Integer rate;
         private String content;
-        private List<String> images;
     }
 }

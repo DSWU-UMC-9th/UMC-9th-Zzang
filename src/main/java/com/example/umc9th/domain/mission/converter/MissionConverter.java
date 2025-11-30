@@ -7,10 +7,7 @@ import com.example.umc9th.domain.mission.entity.Mission;
 import com.example.umc9th.domain.mission.entity.UserMission;
 import com.example.umc9th.domain.store.entity.Store;
 import com.example.umc9th.domain.user.entity.User;
-import jakarta.persistence.*;
-import jakarta.validation.Valid;
-
-import java.time.LocalDate;
+import org.springframework.data.domain.Page;
 
 public class MissionConverter {
 
@@ -21,8 +18,9 @@ public class MissionConverter {
                 .build();
     }
 
-    public static UserMissionResDTO.UserMission toUserMissionDTO(UserMission userMission) {
+    public static UserMissionResDTO.UserMission toUserMissionDto(UserMission userMission) {
         return UserMissionResDTO.UserMission.builder()
+                .userMissionId(userMission.getId())
                 .missionId(userMission.getMission().getId())
                 .storeName(userMission.getMission().getStore().getName())
                 .status(userMission.getStatus())
@@ -41,13 +39,27 @@ public class MissionConverter {
                 .build();
     }
 
-    public static MissionResDTO.Mission toMissionDTO(Mission mission) {
+    public static MissionResDTO.Mission toMissionDto(Mission mission) {
         return MissionResDTO.Mission.builder()
                 .missionId(mission.getId())
                 .storeName(mission.getStore().getName())
                 .content(mission.getContent())
                 .point(mission.getPoint())
                 .deadline(mission.getDeadline())
+                .build();
+    }
+
+    public static MissionResDTO.MissionList toMissionListDto(Page<Mission> missions) {
+        return MissionResDTO.MissionList.builder()
+                .missions(missions.getContent().stream()
+                        .map(MissionConverter::toMissionDto)
+                        .toList()
+                )
+                .listSize(missions.getSize())
+                .totalPage(missions.getTotalPages())
+                .totalElements(missions.getTotalElements())
+                .isFirst(missions.isFirst())
+                .isLast(missions.isLast())
                 .build();
     }
 }

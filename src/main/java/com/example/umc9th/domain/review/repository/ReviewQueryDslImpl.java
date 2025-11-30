@@ -7,6 +7,9 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +22,7 @@ public class ReviewQueryDslImpl implements ReviewQueryDsl {
 
     // 내가 작성한 리뷰 조회 (+필터링)
     @Override
-    public List<Review> filterMyReviews(Long userId, String storeName, Integer rate) {
+    public Page<Review> filterMyReviews(Long userId, String storeName, Integer rate, Pageable pageable) {
 
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
@@ -27,7 +30,6 @@ public class ReviewQueryDslImpl implements ReviewQueryDsl {
         QStore store = QStore.store;
 
         BooleanBuilder builder = new BooleanBuilder();
-
         builder.and(review.user.id.eq(userId));
 
         if (storeName != null) {
@@ -38,10 +40,24 @@ public class ReviewQueryDslImpl implements ReviewQueryDsl {
             builder.and(review.rate.between(rate, rate + 1));
         }
 
-        return queryFactory
+        List<Review> content = queryFactory
                 .selectFrom(review)
                 .join(review.store, store).fetchJoin()
                 .where(builder)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
+
+        Long total = queryFactory
+                .select(review.count())
+                .from(review)
+                .where(builder)
+                .fetchOne();
+
+        if (total == null) {
+            total = 0L;
+        }
+
+        return new PageImpl<>(content, pageable, total);
     }
 }

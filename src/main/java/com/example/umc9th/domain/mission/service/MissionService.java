@@ -18,8 +18,9 @@ import com.example.umc9th.domain.user.entity.User;
 import com.example.umc9th.domain.user.exception.UserException;
 import com.example.umc9th.domain.user.exception.code.UserErrorCode;
 import com.example.umc9th.domain.user.repository.UserRepository;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,9 +49,10 @@ public class MissionService {
         UserMission userMission = MissionConverter.toUserMission(user, mission);
         userMissionRepository.save(userMission);
 
-        return MissionConverter.toUserMissionDTO(userMission);
+        return MissionConverter.toUserMissionDto(userMission);
     }
 
+    @Transactional
     public MissionResDTO.Mission createMission(Long storeId, MissionReqDTO.CreateMission request) {
 
         Store store = storeRepository.findById(storeId)
@@ -59,6 +61,17 @@ public class MissionService {
         Mission mission = MissionConverter.toMission(store, request);
         missionRepository.save(mission);
 
-        return MissionConverter.toMissionDTO(mission);
+        return MissionConverter.toMissionDto(mission);
+    }
+
+    public MissionResDTO.MissionList findMissionsByStore(Long storeId, Integer page) {
+
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new StoreException(StoreErrorCode.NOT_FOUND));
+
+        PageRequest pageRequest = PageRequest.of(page-1, 10);
+        Page<Mission> result = missionRepository.findByStore(store, pageRequest);
+
+        return MissionConverter.toMissionListDto(result);
     }
 }
