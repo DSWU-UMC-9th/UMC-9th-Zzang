@@ -5,12 +5,14 @@ import com.example.umc9th.domain.user.dto.UserReqDTO;
 import com.example.umc9th.domain.user.dto.UserResDTO;
 import com.example.umc9th.domain.user.entity.User;
 import com.example.umc9th.domain.user.entity.mapping.PreferFood;
+import com.example.umc9th.domain.user.enums.Role;
 import com.example.umc9th.domain.user.exception.FoodException;
 import com.example.umc9th.domain.user.exception.code.FoodErrorCode;
 import com.example.umc9th.domain.user.repository.FoodRepository;
 import com.example.umc9th.domain.user.repository.PreferFoodRepository;
 import com.example.umc9th.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,10 +26,14 @@ public class UserCommandService {
     private final FoodRepository foodRepository;
     private final PreferFoodRepository preferFoodRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Transactional
     public UserResDTO.UserJoin signup(UserReqDTO.UserJoin dto) {
 
-        User user = UserConverter.toUser(dto);
+        String salt = passwordEncoder.encode(dto.password());
+
+        User user = UserConverter.toUser(dto, salt, Role.ROLE_USER);
         userRepository.save(user);
 
         if(!dto.preferFood().isEmpty()) {
