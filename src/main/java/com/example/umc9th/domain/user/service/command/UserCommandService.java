@@ -11,6 +11,7 @@ import com.example.umc9th.domain.user.exception.code.FoodErrorCode;
 import com.example.umc9th.domain.user.repository.FoodRepository;
 import com.example.umc9th.domain.user.repository.PreferFoodRepository;
 import com.example.umc9th.domain.user.repository.UserRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class UserCommandService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public UserResDTO.UserJoin signup(UserReqDTO.UserJoin dto) {
+    public UserResDTO.UserJoin signup(UserReqDTO.@Valid UserJoin dto) {
 
         String salt = passwordEncoder.encode(dto.password());
 
@@ -47,6 +48,6 @@ public class UserCommandService {
 
             preferFoodRepository.saveAll(preferFood);
         }
-        return UserConverter.toJoinDTO(user);
+        return UserConverter.toJoinDto(user);
     }
 }

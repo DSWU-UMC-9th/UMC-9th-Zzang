@@ -8,7 +8,7 @@ import com.example.umc9th.domain.user.enums.Role;
 public class UserConverter {
 
     // Entity -> DTO
-    public static UserResDTO.UserJoin toJoinDTO(User user) {
+    public static UserResDTO.UserJoin toJoinDto(User user) {
         return UserResDTO.UserJoin.builder()
                 .userId(user.getId())
                 .created_at(user.getCreatedAt())
@@ -25,6 +25,13 @@ public class UserConverter {
                 .gender(dto.gender())
                 .birth(dto.birth())
                 .address(dto.address())
+                .build();
+    }
+
+    public static UserResDTO.Login toLoginDto(User user, String accessToken) {
+        return UserResDTO.Login.builder()
+                .userId(user.getId())
+                .accessToken(accessToken)
                 .build();
     }
 }

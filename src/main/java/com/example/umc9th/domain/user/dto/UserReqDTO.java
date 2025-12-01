@@ -27,4 +27,11 @@ public class UserReqDTO {
             @ExistFoods
             List<Long> preferFood
     ) {}
+
+    public record Login(
+            @NotBlank
+            String email,
+            @NotBlank
+            String password
+    ){}
 }
