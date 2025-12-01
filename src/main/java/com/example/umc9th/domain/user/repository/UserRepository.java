@@ -6,10 +6,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
     // 사용자 정보 조회
     @Query("SELECT u FROM User u WHERE u.id = :userId")
     List<User> findByUserId(@Param("userId") Long userId);
+
+    Optional<User> findByEmail(String email);
 }

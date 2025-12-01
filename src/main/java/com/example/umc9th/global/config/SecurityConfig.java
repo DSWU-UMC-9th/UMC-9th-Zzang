@@ -26,6 +26,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(allowUris).permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+                        // .requestMatchers("/swagger-ui/**").hasRole("ADMIN") -> 관리자만 접근 허용
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
