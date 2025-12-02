@@ -10,8 +10,12 @@ import org.springframework.http.HttpStatus;
 public enum UserSuccessCode implements BaseSuccessCode {
 
     FOUND(HttpStatus.OK,
-            "MEMBER200_1",
+            "USER200_1",
             "성공적으로 사용자를 조회했습니다."),
+    CREATED(
+            HttpStatus.CREATED,
+            "USER201_1",
+            "성공적으로 회원가입되었습니다."),
     ;
 
     private final HttpStatus status;

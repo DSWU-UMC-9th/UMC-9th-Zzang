@@ -3,13 +3,11 @@ package com.example.umc9th.domain.review.converter;
 import com.example.umc9th.domain.review.dto.ReviewReqDTO;
 import com.example.umc9th.domain.review.dto.ReviewResDTO;
 import com.example.umc9th.domain.review.entity.Review;
-import com.example.umc9th.domain.review.entity.ReviewImage;
 import com.example.umc9th.domain.store.entity.Store;
 import com.example.umc9th.domain.user.entity.User;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class ReviewConverter {
 

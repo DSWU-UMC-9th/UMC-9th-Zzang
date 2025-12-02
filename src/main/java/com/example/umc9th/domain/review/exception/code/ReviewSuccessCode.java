@@ -1,6 +1,5 @@
 package com.example.umc9th.domain.review.exception.code;
 
-import com.example.umc9th.global.apiPayload.code.BaseErrorCode;
 import com.example.umc9th.global.apiPayload.code.BaseSuccessCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +12,11 @@ public enum ReviewSuccessCode implements BaseSuccessCode {
     FOUND(HttpStatus.OK,
             "REVIEW200_1",
             "성공적으로 리뷰를 조회했습니다."),
+
+    CREATED(
+            HttpStatus.CREATED,
+            "REVIEW201_1",
+            "리뷰가 성공적으로 생성되었습니다."),
     ;
 
     private final HttpStatus status;
